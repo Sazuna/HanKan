@@ -16,15 +16,22 @@ def get_table_content(fichier):
 			ligne = ligne.replace("<br>", "")
 			ligne = ligne.replace("(", "")
 			ligne = ligne.replace(")", "")
+			ligne = ligne.replace(" or ", ";")
+			ligne = ligne.replace("～", "")
+
+			# Pour la compatibilité avec pykakasi:
+			ligne = ligne.replace("ō", "ou")
+			ligne = ligne.replace("ū", "uu")
+
 			col0 = regex.findall(r"(?<=<td.*>).*?(?=</td>)", ligne)[0]
 			cols = regex.findall(r"(?<=<td>).*?(?=</td>)", ligne)
 			kanji = col0
 			onyomi = cols[0].replace("</td>", "").replace("<td>", "")
 			if onyomi == "":
-				onyomi = "-"
+				onyomi = "–"
 			kunyomi = cols[1].replace(r"</td>", "").replace("<td>", "")
 			if kunyomi == "":
-				kunyomi = "-"
+				kunyomi = "–"
 			
 			entrees.append((kanji, onyomi, kunyomi))
 	return entrees
@@ -36,7 +43,7 @@ if __name__ == "__main__":
 		fichier = "../onkunyomi/" + str(i) + ".html"
 		entrees.extend(get_table_content(fichier))
 
-	with open("../onkunyomi/sortie.tsv", "w") as f:
+	with open("../onkunyomi/onkun.tsv", "w") as f:
 		f.write("Kanji\tOn\tKun\n")
 		for entree in entrees:
 			f.write("\t".join(entree) + "\n")
