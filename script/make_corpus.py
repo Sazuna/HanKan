@@ -18,7 +18,7 @@ from pykakasi import kakasi
 
 
 kakasi = kakasi()
-kakasi.setMode('s', True)
+#kakasi.setMode('s', True)
 
 def read_onkun(filename):
 	onkun = defaultdict(str)
@@ -50,8 +50,7 @@ def read_onkun(filename):
 def cut_syllabes(romaji):
 	# il faut mettre la string à l'envers pour gérer mieux les cas de ka-ni (et pas kan-i)
 	romaji = romaji[::-1]
-	print(romaji)
-	syllabe_regex = r"(n|(oo|uu|a|e|i|o|u)y?(hc|hs|st|nn|tt|[bcdfghjklmprstwz])?)" # retire le n à la fin des syllabes
+	syllabe_regex = r"(n|(oo|uu|a|e|i|o|u)y?(hct|hc|hs|st|nn|tt|[bcdfghjklmprstwz])?)" # retire le n à la fin des syllabes
 	# Le n est considéré comme une syllabe et ne fait plus partie de la liste des consonnes.
 	# Le n sera recollé à la syllabe qui convient le mieux en fonction des mots par la suite de l'algorithme.
 	#syllabe_regex = r"(n)?(oo|uu|ou|a|e|i|o|u)(y)?(hc|hs|st|[bcdfghjklmnprstwz])?" # ajoute le n à la fin des syllabes
@@ -60,7 +59,6 @@ def cut_syllabes(romaji):
 	#syllabes = [''.join(s) for s in syllabes] # recolle les composants de la syllabe entre eux
 	syllabes = [s[0] for s in syllabes] # recolle les composants de la syllabe entre eux (pour la regex où on retire le n)
 	syllabes = [s[::-1] for s in syllabes] # on remet à l'endroit les lettres dans la syllabe
-	print(romaji, syllabes)
 	return syllabes
 
 def get_prononciation_on_kun():
@@ -115,6 +113,21 @@ def get_prononciation_on_kun():
 			#stringJp = '女の子'
 			#stringJp = 'あの、霧の乙女号も乗って <SPN/>'
 			#stringJp = '新潟大学の学生'
+			#stringJp = '新宿'
+			#stringJp = 'ま、だからやっぱり小っちゃい子は、そんな'
+			#stringJp = 'ボキャブラリーの数が少なさ過ぎて、いつもジェスチャーで体使って伝えようとするんですけど、'
+			#stringJp = 'こう、そういうイベントがあるんですけど、そこにフリースタイルで、福島の郡山から、'
+			#stringJp = '中島美嘉って分かります？'
+			#stringJp = 'れいこさんは札幌に居るってことですか？'
+			#stringJp = 'おじいちゃんの干支の思い出 <SPN/>'
+			#stringJp = 'あー、学生て、割引みたいなね。'
+			#stringJp = '従兄弟が二人しかいないので。'
+			#stringJp = 'このコース頑張ったなとかって思うのってありますか'
+			#stringJp = '復習っていうか'
+			#stringJp = '居心地'
+			#stringJp = ' 女心基礎一'
+			#stringJp = 'つまらない事で怒られてそれ以来先生がすごい嫌いなんだよ。'
+			#stringJp = '恐怖で怖いのか、なん、なんか気持ち悪くて怖いのか'
 
 			converted = kakasi.convert(stringJp)
 			for entree in converted:
@@ -123,7 +136,7 @@ def get_prononciation_on_kun():
 				romaji = entree['hepburn']
 				texte = entree['orig']
 				syllabes = cut_syllabes(romaji) # on récupère les syllabes du mot
-				print(romaji, syllabes)
+				print(romaji, texte, syllabes)
 				kanjis = [] # variable de sortie
 				#for c, syllabe in zip(texte, syllabes):
 				#texte = texte[::-1]
@@ -148,7 +161,7 @@ def get_prononciation_on_kun():
 						on = onkun[c]['On']
 						kun = onkun[c]['Kun']
 						kuns = [k.split('-')[0] for k in kun]
-						i = 4 + 3 # 4 syllabes maximum par mot en japonais; +3 pour les n indépendants
+						i = 4 + 3 # 4 syllabes maximum par mot en japonais; +3 pour les n indépendants (ex: 寿 a une prononciation à 7 syllabes selon ce découpage)
 						if i > len(syllabes):
 							i = len(syllabes)
 						syllabe = ""
@@ -208,17 +221,33 @@ def get_prononciation_on_kun():
 						for j in range(0, i):
 							stack.append(syllabes.pop(0))
 					elif is_hirakata(c):
-						if c not in "ゃょーェっん" and len(syllabes) > 0: # le N (ん) n'est pas séparé par la fonction cut_syllabes, il est rattaché à une autre syllabe
-							print("on enlève ",syllabes[0])
-							syllabe = syllabes.pop(0)
-							stack.append(syllabe)
-							romaji = kakasi.convert(c)[0]['hepburn']
-							while romaji != syllabe and len(syllabes) > 0:
-							#if syllabe == 'n' and len(syllabes) > 0: # si c'est un hirakata qui commence par n
-								syllabe += syllabes.pop(0)
-								# verifier que la valeur est bien egale au romaji du hirakata
-								stack.pop()
-								stack.append(syllabe)
+						# TODO ne pas oublier d'ajouter la syllabe dans la stack et de tout poper
+						if c not in "ゃょーェっ" and len(syllabes) > 0: # le N (ん) n'est pas séparé par la fonction cut_syllabes, il est rattaché à une autre syllabe
+							syllabe = syllabes[0]
+							#stack.append(syllabe)
+							romaji_c = kakasi.convert(c)[0]['hepburn']
+							j = 0
+							#i = 2
+							while romaji_c != syllabe and j < len(syllabes):
+								i = j + 1
+								while romaji_c != syllabe and i <= len(syllabes):
+								#if syllabe == 'n' and len(syllabes) > 0: # si c'est un hirakata qui commence par n
+									syllabe = ''.join(syllabes[j:i])
+									i += 1
+								j += 1
+							syllabe_precedent = syllabes[0:j-1]
+							syllabe_hirakata = syllabe
+							print(c, romaji,"syllabe prec:", syllabe_precedent)
+							print(c, romaji, "syllabe_hirakata:", syllabe_hirakata)
+							#for i in range(0, len(syllabe_precedent)):
+							#	stack.append(syllabes.pop(0))
+							for s in syllabe_precedent:
+								stack.append(s)
+								syllabes.pop(0)
+							if len(kanjis) > 0:
+								# ajout des syllabes précédentes au kanji précédent
+								kanjis[-1][2] += ''.join(syllabe_precedent)
+							stack.append(syllabe_hirakata)
 							if len(syllabes) == 0:
 								break # si tout a été mangé par le hirakata
 						continue
