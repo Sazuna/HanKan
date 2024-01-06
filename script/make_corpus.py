@@ -50,7 +50,7 @@ def read_onkun(filename):
 def cut_syllabes(romaji):
 	# il faut mettre la string à l'envers pour gérer mieux les cas de ka-ni (et pas kan-i)
 	romaji = romaji[::-1]
-	syllabe_regex = r"(n|(oo|uu|a|e|i|o|u)y?(hct|hc|hs|st|nn|tt|[bcdfghjklmprstwz])?)" # retire le n à la fin des syllabes
+	syllabe_regex = r"(n|(a|e|i|o|u)y?(hct|hc|hs|st|tt|[bcdfghjklmprstwz])?)" # retire le n à la fin des syllabes
 	# Le n est considéré comme une syllabe et ne fait plus partie de la liste des consonnes.
 	# Le n sera recollé à la syllabe qui convient le mieux en fonction des mots par la suite de l'algorithme.
 	#syllabe_regex = r"(n)?(oo|uu|ou|a|e|i|o|u)(y)?(hc|hs|st|[bcdfghjklmnprstwz])?" # ajoute le n à la fin des syllabes
@@ -76,60 +76,22 @@ def get_prononciation_on_kun():
 	res = []
 	for file in snt_jp:
 		with open(file, 'r', encoding='UTF-16') as f:
-			stringJp = f.read()
 			# TODO essayer kanjiser la string avec l'outil mozcpy avant de faire les manipulations
 			# pour essayer d'avoir plus de kanjis dans le corpus
-			# Quelques mots utilisés pour le débug
-			#stringJp = '違い'
-			#stringJp = '図書館'
-			#stringJp = '春天'
-			#stringJp = '装郵'
-			#stringJp = '中'
-			#stringJp = '東京'
-			#stringJp = '美味しそう'
-			#stringJp = '確かに。'
-			#stringJp = 'はなん'
-			#stringJp = 'ふーん'
-			#stringJp = 'カフェイン'
-			#stringJp = '日本'
-			#stringJp = '注意'
-			#stringJp = '地下鉄'
-			#stringJp = ' 一緒に食べる'
-			#stringJp = 'きゃ'
-			#stringJp = 'じゃあ今早稲田大学に通ってるんだ。'
-			#stringJp = '風邪'
-			#stringJp = '丈夫' # attendu : jyoubu (joubu à cause de kakasi)
-			#stringJp = '女友達'
-			#stringJp = '向日葵'
-			#stringJp = '朝風呂'
-			#stringJp = '返、うん、返品できないのとかだと困るしね。'
-			#stringJp = 'すごい、すごいじゃないけど、喧嘩もしたし。'
-			#stringJp = '大体、三四十キロぐらいですかね。'
-			#stringJp = 'あのー、カスじゃないけどさ。あの、塵埃 '
-			#stringJp = '低い麓の所ではこのお茶の茶葉を栽培します、みたいのが決まっているんですね。'
-			#stringJp = 'もう大人になるのにな、みたいな。'
-			#stringJp = 'うちの夫は' # otto: problème de la double consonne
-			#stringJp = 'あ、松島奈々子。'
-			#stringJp = '女の子'
-			#stringJp = 'あの、霧の乙女号も乗って <SPN/>'
-			#stringJp = '新潟大学の学生'
-			#stringJp = '新宿'
-			#stringJp = 'ま、だからやっぱり小っちゃい子は、そんな'
-			#stringJp = 'ボキャブラリーの数が少なさ過ぎて、いつもジェスチャーで体使って伝えようとするんですけど、'
-			#stringJp = 'こう、そういうイベントがあるんですけど、そこにフリースタイルで、福島の郡山から、'
-			#stringJp = '中島美嘉って分かります？'
-			#stringJp = 'れいこさんは札幌に居るってことですか？'
-			#stringJp = 'おじいちゃんの干支の思い出 <SPN/>'
-			#stringJp = 'あー、学生て、割引みたいなね。'
-			#stringJp = '従兄弟が二人しかいないので。'
-			#stringJp = 'このコース頑張ったなとかって思うのってありますか'
-			#stringJp = '復習っていうか'
-			#stringJp = '居心地'
-			#stringJp = ' 女心基礎一'
-			#stringJp = 'つまらない事で怒られてそれ以来先生がすごい嫌いなんだよ。'
-			#stringJp = '恐怖で怖いのか、なん、なんか気持ち悪くて怖いのか'
 
-			converted = kakasi.convert(stringJp)
+			if '今早' in stringJp:
+				strin = stringJp.replace('今早','_今早_')
+				strin = strin.split('_')
+				converted = []
+				for s in strin:
+					conv = kakasi.convert(s)
+					if s == '今早':
+						conv[0]['hepburn'] = 'ke'
+						conv[1]['hepburn'] = 'sa'
+					converted.extend(conv)
+				#converted = kakasi.convert(stringJp)
+			else:
+				converted = kakasi.convert(stringJp)
 			for entree in converted:
 				# boucle mot par mot 
 				# (malheureusement pas de possibilité d'avoir caractère par caractère avec kakasi)
@@ -211,7 +173,6 @@ def get_prononciation_on_kun():
 									i = 2
 								kanjis.append([c, c_chinois_simpl, syllabe, '0', '0', file])
 								stack.append(syllabe)
-								print("syllabe = ", syllabe)
 								continue
 							# Si on ne fait pas cet ajout artificiel de données dans le tableau des on-kun,
 							# il faut verifier qu'en faisant i = 1 ça ne crée pas de décallage sur les prochains kanjis.
@@ -223,22 +184,22 @@ def get_prononciation_on_kun():
 					elif is_hirakata(c):
 						# TODO ne pas oublier d'ajouter la syllabe dans la stack et de tout poper
 						if c not in "ゃょーェっ" and len(syllabes) > 0: # le N (ん) n'est pas séparé par la fonction cut_syllabes, il est rattaché à une autre syllabe
-							syllabe = syllabes[0]
+							syllabe = syllabes[0:1]
 							#stack.append(syllabe)
 							romaji_c = kakasi.convert(c)[0]['hepburn']
 							j = 0
 							#i = 2
-							while romaji_c != syllabe and j < len(syllabes):
+							while romaji_c != ''.join(syllabe) and j < len(syllabes):
 								i = j + 1
-								while romaji_c != syllabe and i <= len(syllabes):
+								while romaji_c != ''.join(syllabe) and i <= len(syllabes):
 								#if syllabe == 'n' and len(syllabes) > 0: # si c'est un hirakata qui commence par n
-									syllabe = ''.join(syllabes[j:i])
+									syllabe = syllabes[j:i]
 									i += 1
 								j += 1
+							if j == 0:
+								j = 1
 							syllabe_precedent = syllabes[0:j-1]
 							syllabe_hirakata = syllabe
-							print(c, romaji,"syllabe prec:", syllabe_precedent)
-							print(c, romaji, "syllabe_hirakata:", syllabe_hirakata)
 							#for i in range(0, len(syllabe_precedent)):
 							#	stack.append(syllabes.pop(0))
 							for s in syllabe_precedent:
@@ -247,7 +208,9 @@ def get_prononciation_on_kun():
 							if len(kanjis) > 0:
 								# ajout des syllabes précédentes au kanji précédent
 								kanjis[-1][2] += ''.join(syllabe_precedent)
-							stack.append(syllabe_hirakata)
+							for s in syllabe_hirakata:
+								stack.append(s)
+								syllabes.pop(0)
 							if len(syllabes) == 0:
 								break # si tout a été mangé par le hirakata
 						continue
