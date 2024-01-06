@@ -1,4 +1,5 @@
 Kanji	On	Kun
+互	go	taga-i;katami-ni
 猫	–	neko
 丈	jou	–
 与	yo	ata;azuka;kumi
@@ -7,7 +8,7 @@ Kanji	On	Kun
 乏	bou;hou	tobo
 乞	ki;kitsu;kotsu	ko-u
 乾	kan;ken	kawa-kasu;kawa-ku;inui;hi;ho-su
-亀	–	kame
+亀	ki;kyuu;kin	kame;game;akagire
 井	jyou;sei	i;igeta
 介	kai	suke;tasu-keru
 仙	sen	–
@@ -62,7 +63,7 @@ Kanji	On	Kun
 奈	na;dai;nai	ikan-zo;nan-zo
 奥	ou;iku	oku;kuma
 奨	shou;sou	susu-meru
-乙	otsu;itsu	oto;kinoto
+乙	otsu;itsu;o;i	oto;kinoto
 妥	da;ta	oda-yaka;yasu-raka
 娘	jyou;nyou	musume;ko
 婆	ba;pou;bou	baba
@@ -112,10 +113,10 @@ Kanji	On	Kun
 戻	rei	modo-su;modo-ru;ita-ru;moto-ru
 隣	rin	tonari;tona-ru
 扇	sen	ougi;aogu;oda-teru
-払	futsu;hitsu	hara-u;bara
+払	futsu;hitsu;fu;hi	hara-u;bara
 扱	kyuu,sou	atsuka-u;ko-ku;shigo-ku
 抗	kou	araga-u;koba-mu;haria-u
-抜	batsu	nu-kasu;nu-karu;nu-ku;nu-keru
+抜	batsu;ba	nu-kasu;nu-karu;nu-ku;nu-keru
 披	hi	hira-ku
 抱	hou;bou	ida-ku;kaka-eru;da-ku
 抵	tei;shi	a-taru;u-tsu;fu-reru
@@ -135,11 +136,11 @@ Kanji	On	Kun
 握	aku	nigi-ru
 援	en	tasu-keru;dasu;hi-ku
 携	kei	tazusa-eru;tazusa-waru;hana-reru
-摂	setsu;shou	ka-neru;ka-waru;to-ru
+摂	setsu;shou;se	ka-neru;ka-waru;to-ru
 撃	geki;keki	u-tsu
 撫	fu;bu	na-deru
-撮	satsu	to-ru;tsuma-mu
-擦	satsu	su-ru;su-reru;kasu-reru;kosu-reru;sasu-ru;nasu-ru
+撮	satsu;sa	to-ru;tsuma-mu
+擦	satsu;sa	su-ru;su-reru;kasu-reru;kosu-reru;sasu-ru;nasu-ru
 攻	kou	se-meru;osa-meru;miga-ku
 施	shi;se	hodoko-su;shi-ku
 既	ki	sude-ni
@@ -216,7 +217,7 @@ Kanji	On	Kun
 稲	tou	ina;ine
 稼	ka	kase-gu;u-eru;mino-ri
 稿	kou	shitagaki;wara
-突	totsu	tsu-ku
+突	totsu;to	tsu-ku
 端	tan	hashi;hana;ha;ba;pa;pa;tada-shii;haji-me;hana
 符	fu;pu	warifu
 範	han	igata;nori
@@ -278,7 +279,7 @@ Kanji	On	Kun
 褒	bou	ho-meru
 触	shoku;soku;sho;so	sawa-ru;fu-reru;zawa
 診	shin	mi-ru
-詰	kitsu	tsu-maru;tsu-mu;tsu-meru;naji-ru
+詰	kitsu;ki	tsu-maru;tsu-mu;tsu-meru;naji-ru
 詳	shou;you	kuwa-shii;tsumabi-raka
 誘	yuu	saso-u;izana-u;obi-ku
 誰	sui	dare;ta;tare
@@ -355,11 +356,11 @@ Kanji	On	Kun
 騎	ki	no-ru
 騒	sou	sawa-gu;ure-i;zawa-tsuku;zome-ku
 驚	kyou	odoro-kasu;odoro-ku
-髪	hatsu;otsu	kami
+髪	hatsu;otsu;ha;o	kami
 魔	ma	ba
 鮮	sen	aza-yaka;atara-shii;suku-nai
 鰹	ken	katsuo
-鱈	setsu	tara
+鱈	setsu;se	tara
 鶏	kei	niwatori;tori
 麓	roku	fumoto
 麗	rei;ri	uruwa-shii;ura-ra;ura-raka;tsura-naru;nara-bu
@@ -369,12 +370,12 @@ Kanji	On	Kun
 齢	rei	toshi;yowai
 一	ichi;itsu;i	hito-tsu;hito;tsui
 二	ni;ji	futa-tsu;futa
-三	san	mit-tsu;mi
+三	san;zou	mit-tsu;mi-tsu;i
 四	shi	yot-tsu;yon;yo
 五	go	itsu-tsu;itsu;taga-i;katami-ni
-六	roku	mut-tsu;mutsu;mu;mui
+六	roku;ro	mut-tsu;mutsu;mu;mui
 七	shichi	nana-tsu;nana;nano
-八	hachi;you	yat-tsu;yatsu;ya
+八	hachi;you;ha	yat-tsu;yatsu;ya
 九	ku;kyuu	kokono-tsu;kokono
 十	juu;ji- じっ＝jixtsu	too;to
 百	hyaku;pyaku	momo
@@ -386,8 +387,8 @@ Kanji	On	Kun
 中	chuu;juu	naka;a-taru;a-teru;uchi
 大	dai;tai	oo-kii;oo-ini;o
 小	shou	chii-sai;ko;o;chi-tchai
-月	gatsu;getsu	tsuki
-日	hi;bi	nichi;jitsu;ka;tachi;nou;shita
+月	gatsu;getsu;ga;ge	tsuki
+日	hi;bi	nichi;jitsu;ka;tachi;nou;shita;u
 年	nen	toshi
 早	sou;satsu	haya-i;haya-maru;haya-meru;sa
 木	moku;boku	ki;ko;gi;go
@@ -403,7 +404,7 @@ Kanji	On	Kun
 草	sou	kusa
 虫	chuu	mushi
 犬	ken	inu
-人	jin;nin	hito;ri
+人	jin;nin	hito;ri;tona
 名	mei;myou	na
 女	jo;nyo;nyou	onna;me;nanji;musume;mea-waseru
 男	dan;nan	otoko
@@ -419,8 +420,8 @@ Kanji	On	Kun
 気	ki;ke	–
 円	en	maru
 入	nyuu	hai-ru;i-ru
-出	shutsu;sui	de-ru;da-su;ida-su;i-zu
-立	ritsu	ta-tsu
+出	shutsu;sui;shu	de-ru;da-su;ida-su;i-zu
+立	ritsu;ri	ta-tsu
 休	kyuu	yasu-mu
 先	sen	saki
 夕	seki	yuu
@@ -496,7 +497,7 @@ Kanji	On	Kun
 夏	ka	natsu
 秋	shuu	aki
 冬	tou	fuyu
-今	kon;kin;	ima;ke
+今	kon;kin;kyo	ima;ke
 新	shin	atara-shii;ara-ta;nii;sara
 古	ko;go	furu-i;furu-su;inishie
 間	kan;ken;gan;gen	ma;aida;ai;ukaga-u;shizu-ka;hazama;hiso-kani
@@ -522,7 +523,7 @@ Kanji	On	Kun
 市	shi	ichi
 京	kyou;kei	miyako
 風	fuu;bu;puu	kaze;kaza;sugata;narawashi;furi
-雪	setsu	yuki
+雪	setsu;se	yuki
 雲	un	kumo
 池	chi	ike
 海	kai	umi;e;mi
@@ -579,7 +580,7 @@ Kanji	On	Kun
 歩	ho;bo;fu;po	aru-ku;ayu-mu
 走	sou	hashi-ru
 止	shi	to-maru
-活	katsu	iki-ru;ika-su
+活	katsu;ka	iki-ru;ika-su
 店	ten	mise
 買	bai	ka-u
 売	bai	u-ru
@@ -592,7 +593,7 @@ Kanji	On	Kun
 船	sen	fune;funa;buna;bune
 明	mei;myou;min	aka-rui;a-kasu;aka-ramu;a-kari;aka-rumu;aki-raku;a-ku;a-kuru;a-keru;a
 社	sha;ja	yashiro
-切	setsu	ki-ru
+切	setsu;se	ki-ru
 電	den	–
 毎	mai;bai	goto;tsune;musabo-ru
 合	gou	a-u
@@ -624,8 +625,8 @@ Kanji	On	Kun
 全	zen;sen	matta-ku
 具	gu	tubusa-ni;tsuma;sona-eru;sona-waru
 写	sha	utsu-su;utsu-ru
-列	retsu	–
-助	jo	tasu-keru;tasu-karu;sake
+列	retsu;re	–
+助	jo	tasu-keru;tasu-karu;sake;dasu
 勉	ben	tsuto-meru
 動	dou	ugo-ku
 勝	shou	ka-tsu
@@ -653,7 +654,7 @@ Kanji	On	Kun
 守	shu	mamo-ru
 安	an	yasu-i
 定	tei;jou	sada-meru;sada-maru
-実	jitsu	mi;mino-ru
+実	jitsu;ji	mi;mino-ru
 客	kyaku	–
 宮	kyuu	miya
 宿	shuku;suku;juku;	yado;yado-ru
@@ -710,7 +711,7 @@ Kanji	On	Kun
 歯	shi	ha;ba;yawai
 死	shi	shi-nu
 氷	hyou	kouri;koori;hi;koo-ru
-決	ketsu	ki-meru;ki-maru
+決	ketsu;ke	ki-meru;ki-maru
 油	yu	abura
 波	ha	nami
 注	chuu	soso-gu
@@ -725,7 +726,7 @@ Kanji	On	Kun
 湯	tou	yu
 漢	kan	–
 炭	tan	sumi
-物	butsu;motsu	mono
+物	butsu;motsu;bu;mo	mono
 球	kyuu	tama
 由	yuu;yu	yoshi
 申	shin	mou-su;kasa-neru;saru
@@ -752,7 +753,7 @@ Kanji	On	Kun
 童	dou	–
 笛	teki	fue
 第	dai	–
-筆	hitsu	fude
+筆	hitsu;hi	fude
 等	tou	hito-shii;nado;ra
 箱	–	hako
 級	kyuu	–
@@ -769,7 +770,7 @@ Kanji	On	Kun
 落	raku	o-chiru;otosu
 葉	you	ha;ba
 薬	yaku	kusuri
-血	ketsu	chi
+血	ketsu;ke	chi
 表	hyou;pyou	omote;arawa-su;arawa-reru
 詩	shi	–
 調	chou	shira-beru
@@ -809,16 +810,16 @@ Kanji	On	Kun
 鼻	bi	hana
 不	fu;bu	–
 争	sou	araso-u
-付	fu	tsu-ku;tsu-keru;ata-eru
+付	fu	tsu-ku;tsu-keru;ata-eru;zuke
 令	rei	–
 以	i	–
 仲	chuu	naka
-伝	den	tsuta-eru;tsute
+伝	den	tsuta-eru;tsute;tsuda
 位	i	kurai
 低	tei	hiku-i
 例	rei	tato-eru
 便	ben;bin;hen	tayo-ri;ibari;sunawa-chi;hetsura-u;yosuga
-信	shin	tayo-ri;maka-seru;makoto
+信	shin	tayo-ri;maka-seru;makoto;nobu
 倉	sou	kura
 候	kou	–
 借	shaku	ka-riru
@@ -834,9 +835,9 @@ Kanji	On	Kun
 典	ten	–
 冷	rei	tsume-tai;hi-eru;sa-meru
 初	sho	hatsu;haji-me
-別	betsu	waka-reru
+別	betsu;be	waka-reru
 利	ri	–
-刷	satsu	su-ru
+刷	satsu;sa	su-ru
 副	fuku	–
 功	kou	–
 加	ka	kuwa-eru
@@ -844,7 +845,7 @@ Kanji	On	Kun
 労	rou	negira-u
 勇	yuu	isa-mu
 包	hou	tsutsu-mu
-卒	sotsu	–
+卒	sotsu;so	–
 協	kyou	–
 単	tan	–
 博	haku	–
@@ -873,7 +874,7 @@ Kanji	On	Kun
 完	kan	–
 官	kan	–
 害	gai	–
-察	satsu	–
+察	satsu;sa	–
 巣	sou	su
 差	sa	–
 希	ki	mare
@@ -886,12 +887,12 @@ Kanji	On	Kun
 径	kei	–
 徒	to	–
 得	toku	e-ru
-必	hitsu	kanara-zu
+必	hitsu;hi;bi	kanara-zu
 念	nen	–
 愛	ai;wai	ito-shii;u-i;o-shimu;kana-shii;mana;me-deru
 成	sei	na-ru
 戦	sen	ikusa;tataka-u
-折	setsu	o-ru
+折	setsu;se	o-ru
 挙	kyo	a-geru
 改	kai	arata-meru
 救	kyuu	suku-u
@@ -905,7 +906,7 @@ Kanji	On	Kun
 最	sai	mo;motto-mo
 望	bou	nozo-mu
 未	mi	ima-da
-末	matsu	sue
+末	matsu;ma	sue
 札	satsu;sa	fuda;sane;wakajini
 材	zai	–
 束	soku	taba;tsuka
@@ -918,10 +919,10 @@ Kanji	On	Kun
 極	kyoku	kiwa-meru
 標	hyou	–
 機	ki	hata
-欠	ketsu	ka-keru
+欠	ketsu;ke	ka-keru
 歴	reki	–
 残	zan	noko-ru
-殺	satsu	koro-su
+殺	satsu;sa	koro-su
 毒	doku	–
 氏	shi	uji
 民	min	tami
@@ -939,7 +940,7 @@ Kanji	On	Kun
 然	zen;nen	shika-shi
 焼	shou	ya-ku;ya-keru;ku-beru
 照	shou	te-rasu
-熱	netsu	atsu-i;iki-ru;hote-ru;hotobori;ata
+熱	netsu;ne	atsu-i;iki-ru;hote-ru;hotobori;ata
 牧	boku	maki
 特	toku	–
 産	san	u-mu;yage
@@ -952,11 +953,11 @@ Kanji	On	Kun
 競	kyou	kiso-u
 笑	shou	wara-u
 管	kan	kuda
-節	setsu	fushi
+節	setsu;se	fushi
 粉	fun	ko;kona
 紀	ki	–
 約	yaku	–
-結	ketsu	musu-bu;yu-u
+結	ketsu;ke	musu-bu;yu-u
 給	kyuu	tama-u
 続	zoku;shoku	tsudu-ku;tsudu-keru;tsu-gu
 置	chi	o-ku;oki
@@ -978,7 +979,7 @@ Kanji	On	Kun
 観	kan	mi-ru
 訓	kun	–
 試	shi	kokoromi-ru;tame-su
-説	setsu	to-ku
+説	setsu;se	to-ku
 課	ka	–
 議	gi	–
 象	zou;shou	–
@@ -1009,7 +1010,7 @@ Kanji	On	Kun
 養	you	yashina-u
 験	ken	–
 久	kyuu;ku	hisa-shii
-仏	hutsu;butsu	hotoke
+仏	hutsu;butsu;hu;bu	hotoke
 仮	ka;ke	kari
 件	ken	–
 任	nin	maka-seru
@@ -1037,7 +1038,7 @@ Kanji	On	Kun
 営	ei	itona-mu
 因	in	yo-ru
 団	dan;ton	–
-圧	atsu	–
+圧	atsu;a	–
 在	zai	a-ru
 均	kin	–
 基	ki	moto-duku
@@ -1077,7 +1078,7 @@ Kanji	On	Kun
 招	shou	mane-ku
 授	ju	sazu-keru
 採	sai	to-ru
-接	setsu	ses-suru;tsu-gu
+接	setsu;se	ses-suru;tsu-gu
 提	tei	sa-geru
 損	son	soko-neru
 支	shi	sasa-eru;ka-u;tsuka-eru;to
@@ -1105,14 +1106,14 @@ Kanji	On	Kun
 測	soku	haka-ru
 準	jun	–
 演	en	–
-潔	ketsu	isagiyo-i
+潔	ketsu;ke	isagiyo-i
 災	sai	wazawa-i
 燃	nen	mo-eru
 版	han	–
 犯	han	oka-su
 状	jou	–
 独	doku	hito-ri
-率	ritsu;sotsu	hiki-iru
+率	ritsu;sotsu;ri;so	hiki-iru
 現	gen	arawa-reru
 留	ryuu ru	todo-maru
 略	ryaku	–
@@ -1131,7 +1132,7 @@ Kanji	On	Kun
 素	su;so	moto
 経	kei;kyou	he-ru
 統	tou	su-beru
-絶	zetsu	ta-tsu
+絶	zetsu;ze	ta-tsu
 綿	men	wata
 総	sou	–
 編	hen	a-mu
@@ -1145,15 +1146,15 @@ Kanji	On	Kun
 肥	hi	ko-yasu
 能	nou	–
 興	kyou;kou	oko-su;oko-ru
-舌	zetsu	shita
+舌	zetsu;ze	shita
 舎	sha;seki	ie;o-ku;yado;yado-ru;ka
-術	jutsu	sube
+術	jutsu;ju	sube
 衛	ei	–
 製	sei	–
 複	fuku	–
 規	ki	–
 解	ge;kai	to-ku
-設	setsu	mouke-ru
+設	setsu;se	mouke-ru
 許	kyo	yuru-su
 証	shou	akashi
 評	hyou	–
@@ -1172,7 +1173,7 @@ Kanji	On	Kun
 賛	san	–
 質	shitsu	–
 輸	yu	–
-述	jutsu	no-beru
+述	jutsu;ju	no-beru
 迷	mei	mayo-u
 退	tai	shirizo-ku
 逆	gyaku	sakara-u
@@ -1187,7 +1188,7 @@ Kanji	On	Kun
 限	gen	kagi-ru
 険	ken	kewa-shii
 際	sai	kiwa
-雑	zatsu	–
+雑	zatsu;za	–
 非	hi	ara-zu
 預	yo	azu-keru
 領	ryou	–
@@ -1204,10 +1205,10 @@ Kanji	On	Kun
 傷	shou	kizu
 優	yuu	yasa-shii
 党	tou	–
-冊	satsu	–
+冊	satsu;sa	–
 処	sho	–
 刻	koku	kiza-mu
-割	katsu	wa-ru;wari;wa-ru;wa-reru;sa-ku
+割	katsu;ka	wa-ru;wari;wa-ru;wa-reru;sa-ku
 創	sou	tsuku-ru
 劇	geki	–
 勤	kin	tsuto-meru
@@ -1235,7 +1236,7 @@ Kanji	On	Kun
 宙	chuu	–
 宝	hou	takara
 宣	sen	notama-u
-密	mitsu	–
+密	mitsu;mi	–
 寸	sun	–
 専	sen	moppa-ra
 射	sha	i-ru
@@ -1254,7 +1255,7 @@ Kanji	On	Kun
 庁	chou	–
 座	za	suwa-ru
 延	en	no-basu
-律	ritsu	–
+律	ritsu;ri	–
 従	juu;ju;jou	shitaga-u;shitaga-eru;i
 忘	bou	wasu-reru
 忠	chuu	–
@@ -1309,7 +1310,7 @@ Kanji	On	Kun
 私	shi	watakushi;watashi
 秘	hi	–
 穀	koku	–
-穴	ketsu	ana
+穴	ketsu;ke	ana
 窓	sou	mado
 筋	kin	suji
 策	saku	–
@@ -1374,4 +1375,4 @@ Kanji	On	Kun
 難	nan;da;dan;na	muzuka-shii;kata-i;niku-i;mutsuka-shii;gata-ku;gatou
 革	kaku	kawa
 頂	chou	itada-ku
-骨	kotsu	hone
+骨	kotsu;ko	hone
