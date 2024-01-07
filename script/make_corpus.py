@@ -5,6 +5,7 @@ import glob
 import csv
 from collections import defaultdict
 import regex
+import random
 
 # pip3 install opencc-py
 import opencc # chinese converter
@@ -19,6 +20,8 @@ from pykakasi import kakasi
 
 kakasi = kakasi()
 #kakasi.setMode('s', True)
+
+import pypinyin
 
 def read_onkun(filename):
 	onkun = defaultdict(str)
@@ -63,7 +66,7 @@ def cut_syllabes(romaji):
 
 def get_prononciation_on_kun():
 	# récupération de la liste de fichiers
-	path_jp = "../MSLT_Corpus/Data/MSLT_Test_JA_20170914/*.jp.snt"
+	path_jp = "../MSLT_Corpus/Data/MSLT_Test_JA_20170914/*T2.jp.snt"
 	snt_jp = glob.glob(path_jp)
 	converterJp2t = opencc.OpenCC("jp2t.json") # convertisseur de caractères japonais vers chinois traditionnel
 	convertert2s = opencc.OpenCC("t2s.json") # convertisseur de caractères traditionnels vers simplifiés
@@ -79,6 +82,7 @@ def get_prononciation_on_kun():
 			# TODO essayer kanjiser la string avec l'outil mozcpy avant de faire les manipulations
 			# pour essayer d'avoir plus de kanjis dans le corpus
 
+			stringJp = f.read()
 			if '今早' in stringJp:
 				strin = stringJp.replace('今早','_今早_')
 				strin = strin.split('_')
@@ -98,7 +102,6 @@ def get_prononciation_on_kun():
 				romaji = entree['hepburn']
 				texte = entree['orig']
 				syllabes = cut_syllabes(romaji) # on récupère les syllabes du mot
-				print(romaji, texte, syllabes)
 				kanjis = [] # variable de sortie
 				#for c, syllabe in zip(texte, syllabes):
 				#texte = texte[::-1]
@@ -132,6 +135,7 @@ def get_prononciation_on_kun():
 						while i > 0: # 3 syllabes maximum par caractère
 							syllabe = ''.join(syllabes[0:i])
 							if syllabe in on:
+								# TODO ajouter le type de consonne de la syllabe + le lieu d'articulation
 								kanjis.append([c, c_chinois_simpl, syllabe, '1', '1', file])
 								ok = True
 								break
@@ -182,7 +186,6 @@ def get_prononciation_on_kun():
 						for j in range(0, i):
 							stack.append(syllabes.pop(0))
 					elif is_hirakata(c):
-						# TODO ne pas oublier d'ajouter la syllabe dans la stack et de tout poper
 						if c not in "ゃょーェっ" and len(syllabes) > 0: # le N (ん) n'est pas séparé par la fonction cut_syllabes, il est rattaché à une autre syllabe
 							syllabe = syllabes[0:1]
 							#stack.append(syllabe)
@@ -222,10 +225,121 @@ def get_prononciation_on_kun():
 				res.extend(kanjis)#[::-1]) # remise à l'endroit des kanjis
 			#print(res)
 			#return # arrêt à la première boucle pour le débugage
+	return res
 
-	with open("kanjis_labels.tsv", 'w') as f:
-		f.write("Kanji\tHanzi\tSyllabe\tLabel\tDansDict\tFichier\n")
+def get_consonne(pinyin):
+	consonne = regex.findall(r"$([bcdefghjklmnpqrstwxz])|(zh|ch|sh)", pinyin[0:2])
+	# w, y sont des demi-consonnes. Elles n'apparaissent pas dans le tableau des consonnes
+	# du chinois.
+	if len(consonne) == 0:
+		return ''
+	else:
+		return consonne[0][0]
+	print('consonne:', consonne)
+	return consonne
+	
+def get_mode_lieu(pinyin):
+	consonne = get_consonne(pinyin)
+	if consonne == 'p':
+		return 'occlusive', 'aspiree', 'bilabiale'
+	if consonne == 'b':
+		return 'occlusive', 'non_aspiree', 'bilabiale'
+	if consonne == 'm':
+		return 'nasale', '_', 'bilabiale'
+	if consonne == 'f':
+		return 'fricative', 'sourde', 'labio-dentale'
+	if consonne == 't':
+		return 'occlusive', 'aspiree', 'dentale/alveo-dentale'
+	if consonne == 'd':
+		return 'occlusive', 'non_aspiree', 'dentale/alveo-dentale'
+	if consonne == 'c':
+		return 'affriquee', 'aspiree', 'dentale/alveo-dentale'
+	if consonne == 'z':
+		return 'affriquee', 'non_aspiree', 'dentale/alveo-dentale'
+	if consonne == 's':
+		return 'fricative', 'sourde', 'dentale/alveo-dentale'
+	if consonne == 'l':
+		return 'laterale', '_', 'dentale/alveo-dentale'
+	if consonne == 'n':
+		return 'laterale', '_', 'dentale/alveo-dentale'
+	if consonne == 'ch':
+		return 'affriquee', 'aspiree', 'retroflexe'
+	if consonne == 'zh':
+		return 'affriquee', 'non_aspiree', 'retroflexe'
+	if consonne == 'sh':
+		return 'fricative', 'sourde', 'retroflexe'
+	if consonne == 'r':
+		return 'fricative', 'sonore', 'retroflexe'
+	if consonne == 'q':
+		return 'affriquee', 'aspiree', 'palatale'
+	if consonne == 'j':
+		return 'affriquee', 'non_aspiree', 'palatale'
+	if consonne == 'x':
+		return 'fricative', 'sourde', 'palatale'
+	if consonne == 'k':
+		return 'occlusive', 'aspiree', 'velaire'
+	if consonne == 'g':
+		return 'occlusive', 'non_aspiree', 'velaire'
+	if consonne == 'h':
+		return 'fricative', 'sourde', 'velaire'
+	if consonne == 'ng':
+		return 'nasale', '_', 'velaire'
+	return '_', '_', '_' # si la consonne n'a pas été trouvée
+
+def get_hanzi(kanjis):
+	# Etape 1: constitution d'un dictionnaire de hanzi avec une liste de fichiers pour chaque hanzi
+	
+	path_ch = "../MSLT_Corpus/Data/MSLT_Test_JA_20170914/*.jp.snt"
+	path_ch = "../MSLT_Corpus/Data/MSLT_Test_ZH_20170914/MSLT_Test_CH_*T2.ch.snt"
+	snt_ch = glob.glob(path_ch)
+	dico_hanzi = {}
+	for file in snt_ch:
+		with open(file, 'r', encoding='UTF-16') as f:
+			stringCh = f.read()
+			for hanzi in stringCh:
+				if not is_kanji(hanzi):
+					continue
+				if hanzi in dico_hanzi:
+					dico_hanzi[hanzi].append(file)
+				else:
+					pinyin = pypinyin.pinyin(hanzi)[0][0] # le plus probable, mais il peut exister des hanzi avec plusieurs prononciations dans certains cas rares.
+					print(type(pinyin), pinyin, hanzi)
+					mode, mode2, lieu = get_mode_lieu(pinyin)
+					dico_hanzi[hanzi] = [pinyin, mode, mode2, lieu, file]
+			# Ajout de : liens vers fichiers;
+			# pinyin;
+			# type 1ere consonne du pinyin;
+
+	# Etape 2: ajouter un lien vers un des fichiers chinois aux kanjis
+	for i, line in enumerate(kanjis):
+		hanzi = line[1]
+		#print(hanzi)
+		if not hanzi in dico_hanzi:
+			# Si il n'y a aucune entrée de hanzi, alors on supprime le kanji car on ne peut pas former de couple kanji-hanzi
+			#del kanjis[i]
+			#line.extend(['_','_','_','_','_'])
+			#  cat hanzi_labels.tsv | egrep -v "_$" # enlever les kanji qui n'ont pas de hanzi
+			continue
+		hanzi_infos = dico_hanzi[hanzi]
+		pinyin = hanzi_infos[0]
+		mode = hanzi_infos[1]
+		mode2 = hanzi_infos[2]
+		lieu = hanzi_infos[3]
+		files = hanzi_infos[4:]
+		# choix au hasard d'un fichier pour ne pas avoir toujours les mêmes entrées
+		file = random.choice(files)
+		line.extend([pinyin, mode, mode2, lieu, file])
+		#return
+
+def write_output(res, file='kanji_label.tsv'):
+	with open(file, 'w') as f:
+		line0 = "Kanji\tHanzi\tSyllabe\tLabel\tDansDict\tFichierJap\tPinyin\tModePin\tMode2Pin\tLieuPin\tFichierCh\n"
+		f.write(line0)
+		n_champs = len(line0.split('\t'))
 		for line in res:
+			if len(line) < n_champs:
+				print("ligne trop courte:", line)
+				continue # ignore les lignes qui ne sont pas de la bonne taille
 			f.write('\t'.join(line)+'\n')
 
 def is_kanji(char):
@@ -243,7 +357,10 @@ def is_hirakata(char):
 	return unicode_value >= ord(u"\u3040") and unicode_value <= ord(u"\u309F") or unicode_value >= ord(u"\u30A0") and unicode_value <= ord(u"\u30FF")
 
 def main():
-	get_prononciation_on_kun()
+	res = get_prononciation_on_kun()
+	get_hanzi(res)
+	print(res[0:10])
+	write_output(res, 'hanzi_labels.tsv')
 
 if __name__ == "__main__":
 
