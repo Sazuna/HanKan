@@ -107,7 +107,6 @@ def get_prononciation_on_kun():
 				#texte = texte[::-1]
 				#syllabes = syllabes[::-1] # on met à l'envers pour être sûr que les suffixes auront un romaji d'au moins une syllabe
 				#(exemple de 風邪 qui ne fonctionne pas car les 2 caractères se prononcent kaze, mais le 1er caractère se prononce aussi kaze)
-				#print("texte:",texte,"romaji:", romaji,"syllabes:", syllabes)
 				stack = []
 				for c in texte:
 					# Associe chaque kanji à son romaji (dans le contexte)
@@ -228,14 +227,13 @@ def get_prononciation_on_kun():
 	return res
 
 def get_consonne(pinyin):
-	consonne = regex.findall(r"$([bcdefghjklmnpqrstwxz])|(zh|ch|sh)", pinyin[0:2])
+	consonne = regex.findall(r"^([bcdefghjklmnpqrstwxyz])|(zh|ch|sh)", pinyin[0:2])
 	# w, y sont des demi-consonnes. Elles n'apparaissent pas dans le tableau des consonnes
 	# du chinois.
 	if len(consonne) == 0:
 		return ''
 	else:
 		return consonne[0][0]
-	print('consonne:', consonne)
 	return consonne
 	
 def get_mode_lieu(pinyin):
@@ -284,7 +282,11 @@ def get_mode_lieu(pinyin):
 		return 'fricative', 'sourde', 'velaire'
 	if consonne == 'ng':
 		return 'nasale', '_', 'velaire'
-	return '_', '_', '_' # si la consonne n'a pas été trouvée
+	if consonne == 'w' or consonne == 'y':
+		return 'semi_voyelle', '_', '_'
+	else:
+		return 'voyelle', '_', '_'
+	#return '_', '_', '_' # si la consonne n'a pas été trouvée
 
 def get_hanzi(kanjis):
 	# Etape 1: constitution d'un dictionnaire de hanzi avec une liste de fichiers pour chaque hanzi
@@ -303,7 +305,6 @@ def get_hanzi(kanjis):
 					dico_hanzi[hanzi].append(file)
 				else:
 					pinyin = pypinyin.pinyin(hanzi)[0][0] # le plus probable, mais il peut exister des hanzi avec plusieurs prononciations dans certains cas rares.
-					print(type(pinyin), pinyin, hanzi)
 					mode, mode2, lieu = get_mode_lieu(pinyin)
 					dico_hanzi[hanzi] = [pinyin, mode, mode2, lieu, file]
 			# Ajout de : liens vers fichiers;
@@ -313,7 +314,6 @@ def get_hanzi(kanjis):
 	# Etape 2: ajouter un lien vers un des fichiers chinois aux kanjis
 	for i, line in enumerate(kanjis):
 		hanzi = line[1]
-		#print(hanzi)
 		if not hanzi in dico_hanzi:
 			# Si il n'y a aucune entrée de hanzi, alors on supprime le kanji car on ne peut pas former de couple kanji-hanzi
 			#del kanjis[i]
@@ -338,7 +338,6 @@ def write_output(res, file='kanji_label.tsv'):
 		n_champs = len(line0.split('\t'))
 		for line in res:
 			if len(line) < n_champs:
-				print("ligne trop courte:", line)
 				continue # ignore les lignes qui ne sont pas de la bonne taille
 			f.write('\t'.join(line)+'\n')
 
@@ -359,7 +358,6 @@ def is_hirakata(char):
 def main():
 	res = get_prononciation_on_kun()
 	get_hanzi(res)
-	print(res[0:10])
 	write_output(res, 'hanzi_labels.tsv')
 
 if __name__ == "__main__":
