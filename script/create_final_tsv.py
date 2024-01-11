@@ -3,7 +3,7 @@
 
 """
     Ce que l'on peut ecrire sur le terminal depuis le dossier script :
-    $ python create_final_tsv.py faux.tsv
+    $ python create_final_tsv.py hankan_final.tsv
 """
 
 import sys
@@ -15,16 +15,16 @@ def read_textgrid(chemin: str, caracter: str) :
     Args:
         chemin (str): chemin vers la transcription du fichier
     """
-    path_textgrid = regex.sub(r"../MSLT_Corpus/Data/(.+?)/(.+?)\.T2(.+?)\.snt", r"../Output/\1/\2\3.TextGrid", chemin)
-    
+
+    path_textgrid = regex.sub(r"../Corpora/MSLT_Datas/(.+?)\.T2(.+?)\.snt", r"../Corpora/MSLT_TextGrid/\1\2.TextGrid", chemin)
     with open(path_textgrid, "r") as f :
         data = f.readlines()
-        
+         
     for i, line in enumerate(data) :
         my_regex = r".+" + regex.escape(caracter) + r".+"
         if regex.match(my_regex, line) :
-            xmin = regex.sub(r".+([0-9]+\.[0-9]+)\s+", r"\1", data[i-2])
-            xmax = regex.sub(r".+([0-9]+\.[0-9]+)\s+", r"\1", data[i-1])
+            xmin = regex.sub(r".+xmin\s=\s([0-9\.]+)\s+", r"\1", data[i-2])
+            xmax = regex.sub(r".+xmax\s=\s([0-9\.]+)\s+", r"\1", data[i-1])
             break
     
     return xmin, xmax
@@ -44,7 +44,7 @@ def new_tsv(file: list[str]) :
             tok_line = [token for token in line.rstrip().split("\t")]
             
             # les nouveaux éléments
-            DebutJap, FinJap = read_textgrid(tok_line[8], tok_line[0]) # pas pu tester
+            DebutJap, FinJap = read_textgrid(tok_line[8], tok_line[0])
             DebutCh, FinCh = read_textgrid(tok_line[13], tok_line[1])
             
             # on insert les nouveaux éléments dans la liste

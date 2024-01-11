@@ -3,7 +3,7 @@
 
 """
     Ce que l'on peut ecrire sur le terminal depuis le dossier script :
-    $ python cut_wav_create_image.py faux_final.tsv
+    $ python cut_wav_create_image.py hankan_final.tsv
 """
 
 import sys
@@ -21,15 +21,14 @@ def cut_wav(chemin: str, xmin: str, xmax: str):
     Returns:
         AudioSegment: renvoie l'audio découpé
     """
+   
     # transformation en miliseconde
     xmin = (float(xmin) - 0.005) * 1000
     xmax = (float(xmax) + 0.005) * 1000
     
     # on va chercher le fichier audio
-    path_audio = regex.sub(r"(../MSLT_Corpus/Data/.+?)/(.+?)\.T2(.+?)\.snt", r"\1/\2.T0\3.wav", chemin)
+    path_audio = regex.sub(r"../Corpora/MSLT_Datas/(.+?)\.T2(.+?)\.snt", r"../Corpora/MSLT_Datas/\1.T0\2.wav", chemin)
     audio = AudioSegment.from_wav(path_audio)
-    
-    # puis on découpe
     return audio[xmin:xmax]
 
 def lecture_tsv(file: list[str]):
@@ -46,16 +45,16 @@ def lecture_tsv(file: list[str]):
             
             # label
             label = tok_line[6]
-            with open (f"../data/label{i}.txt", "w") as f :
+            with open (f"../Corpora/Processed_Datas/label{i}.txt", "w") as f :
                 f.write(label)
-                
+
             # wav zh
             audio_zh = cut_wav(tok_line[15], tok_line[16], tok_line[17])
-            audio_zh.export(f"../data/hanzi{i}.wav", format="wav")
-            
+            audio_zh.export(f"../Corpora/Processed_Datas/hanzi{i}.wav", format="wav")
+
             # wav jp
-            audio_zh = cut_wav(tok_line[10], tok_line[11], tok_line[12]) # pas pu tester
-            audio_zh.export(f"../data/kanji{i}.wav", format="wav")
+            audio_jp = cut_wav(tok_line[8], tok_line[9], tok_line[10])
+            audio_jp.export(f"../Corpora/Processed_Datas/kanji{i}.wav", format="wav")
 
 if __name__ == "__main__":
     
