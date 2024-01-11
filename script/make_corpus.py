@@ -4,6 +4,7 @@ import sys
 import glob
 import csv
 from collections import defaultdict
+from xmlrpc.client import boolean
 import regex
 import random
 
@@ -63,6 +64,54 @@ def cut_syllabes(romaji):
 	syllabes = [s[0] for s in syllabes] # recolle les composants de la syllabe entre eux (pour la regex où on retire le n)
 	syllabes = [s[::-1] for s in syllabes] # on remet à l'endroit les lettres dans la syllabe
 	return syllabes
+
+def get_mode_lieu_cons_jp(romaji):
+	consonne = get_consonne(romaji, is_pinyin=False)
+	if consonne == 'p':
+		return 'occlusive', 'sourde', 'bilabiale'
+	if consonne == 'b':
+		return 'occlusive', 'sonore', 'bilabiale'
+	if consonne == 'm':
+		return 'nasale', '_', 'bilabiale'
+	if consonne == 'f':
+		return 'fricative', 'sourde', 'bilabiale'
+	if consonne == 'v':
+		return 'fricative', 'sonore', 'bilabiale'
+	if consonne == 't':
+		return 'occlusive', 'sourde', 'alveolaire'
+	if consonne == 'd':
+		return 'occlusive', 'sonore', 'alveolaire'
+	if consonne == 'n':
+		return 'nasale', '_', 'alveolaire'
+	if consonne == 'r':
+		return 'battue', '_', 'alveolaire'
+	if consonne == 's':
+		return 'fricative', 'sourde', 'alveolaire'
+	if consonne == 'ts':
+		return 'affriquee', 'sourde', 'alveolaire'
+	if consonne == 'z':
+		return 'affriquee', 'sonore', 'alveolaire'
+	if consonne == 'sh':
+		return 'fricative', 'sourde', 'alveolo-palatale' # = post-alveolar je crois
+	if consonne == 'ch':
+		return 'affriquee', 'sourde', 'alveolo-palatale'
+	if consonne == 'j':
+		return 'affriquee', 'sonore', 'alveolo-palatale'
+	if consonne == 'ny':
+		return 'nasal', '_', 'palatal'
+	if consonne == 'y':
+		return 'spirant', '_', 'palatal'
+	if consonne == 'k':
+		return 'occlusive', 'sourde', 'velaire'
+	if consonne == 'g':
+		return 'occlusive', 'sonore', 'velaire'
+	if consonne == 'h':
+		return 'fricative', '_', 'glottale'
+	if consonne == 'hy' or consonne == "hi":
+		return 'fricative', '_', 'palatale'
+	else:
+		return 'voyelle', '_', '_'
+	#return '_', '_', '_' # si la consonne
 
 def get_prononciation_on_kun():
 	# récupération de la liste de fichiers
@@ -135,11 +184,12 @@ def get_prononciation_on_kun():
 							syllabe = ''.join(syllabes[0:i])
 							if syllabe in on:
 								# TODO ajouter le type de consonne de la syllabe + le lieu d'articulation
-								kanjis.append([c, c_chinois_simpl, syllabe, '1', '1', file])
+								mode_jp, mode2_jp, lieu_jp = get_mode_lieu_cons_jp(syllabe)
+								kanjis.append([c, c_chinois_simpl, syllabe, mode_jp, mode2_jp, lieu_jp, '1', '1', file])
 								ok = True
 								break
 							elif syllabe in kuns:
-								kanjis.append([c, c_chinois_simpl, syllabe, '0', '1', file])
+								kanjis.append([c, c_chinois_simpl, syllabe, '_', '_', '_', '0', '1', file])
 								ok = True
 								break
 							i -= 1
@@ -226,8 +276,11 @@ def get_prononciation_on_kun():
 			#return # arrêt à la première boucle pour le débugage
 	return res
 
-def get_consonne(pinyin):
-	consonne = regex.findall(r"^([bcdefghjklmnpqrstwxyz])|(zh|ch|sh)", pinyin[0:2])
+def get_consonne(pinyin, is_pinyin:boolean=True):
+	if is_pinyin:
+		consonne = regex.findall(r"^([bcdefghjklmnpqrstwxyz])|(zh|ch|sh)", pinyin[0:2])
+	else:
+		consonne = regex.findall(r"^((ny|(hy|hi)|ch|sh|ts)|[kgsztdnhbpmyrwjfy])", pinyin[0:2])
 	# w, y sont des demi-consonnes. Elles n'apparaissent pas dans le tableau des consonnes
 	# du chinois.
 	if len(consonne) == 0:
@@ -333,7 +386,7 @@ def get_hanzi(kanjis):
 
 def write_output(res, file='kanji_label.tsv'):
 	with open(file, 'w') as f:
-		line0 = "Kanji\tHanzi\tSyllabe\tLabel\tDansDict\tFichierJap\tPinyin\tModePin\tMode2Pin\tLieuPin\tFichierCh\n"
+		line0 = "Kanji\tHanzi\tSyllabe\tModeSyl\tMode2Syl\tLieuSyl\tLabel\tDansDict\tFichierJap\tPinyin\tModePin\tMode2Pin\tLieuPin\tFichierCh\n"
 		f.write(line0)
 		n_champs = len(line0.split('\t'))
 		for line in res:
