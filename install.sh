@@ -1,7 +1,7 @@
 #-- le corpus
 # wget https://download.microsoft.com/download/3/B/D/3BD46353-D61D-4F02-BE42-FB0E8A565825/MSLT_Corpus.zip
 
-conda create --name hankan python=3.8
+conda create --name hankan
 conda activate hankan
 
 #-- partie alignement forcé
@@ -16,8 +16,10 @@ mfa model download dictionary japanese_mfa
 mfa model download acoustic mandarin_mfa
 mfa model download dictionary mandarin_mfa
 
-#-- partie fichier tsv de Liza
+#-- partie fichier tsv de Liza et Laura
 
 pip install opencc
 pip install pykakasi
 pip install pypinyin
+pip install regex 
+pip install pydub

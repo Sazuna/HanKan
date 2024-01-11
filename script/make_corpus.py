@@ -8,21 +8,12 @@ from xmlrpc.client import boolean
 import regex
 import random
 
-# pip3 install opencc-py
 import opencc # chinese converter
-
-# pip3 install mozcpy
-#import mozcpy
-
-# pip3 install pykakasi
-from pykakasi import kakasi
-# module de conversion du japonais en romaji
-
+from pykakasi import kakasi # conversion du japonais en romaji
+import pypinyin
 
 kakasi = kakasi()
 #kakasi.setMode('s', True)
-
-import pypinyin
 
 def read_onkun(filename):
 	onkun = defaultdict(str)
@@ -115,7 +106,7 @@ def get_mode_lieu_cons_jp(romaji):
 
 def get_prononciation_on_kun():
 	# récupération de la liste de fichiers
-	path_jp = "../MSLT_Corpus/Data/MSLT_Test_JA_20170914/*T2.jp.snt"
+	path_jp = "../Corpora/MSLT_Datas/*T2.jp.snt"
 	snt_jp = glob.glob(path_jp)
 	converterJp2t = opencc.OpenCC("jp2t.json") # convertisseur de caractères japonais vers chinois traditionnel
 	convertert2s = opencc.OpenCC("t2s.json") # convertisseur de caractères traditionnels vers simplifiés
@@ -345,8 +336,8 @@ def get_mode_lieu(pinyin):
 def get_hanzi(kanjis):
 	# Etape 1: constitution d'un dictionnaire de hanzi avec une liste de fichiers pour chaque hanzi
 	
-	path_ch = "../MSLT_Corpus/Data/MSLT_Test_JA_20170914/*.jp.snt"
-	path_ch = "../MSLT_Corpus/Data/MSLT_Test_ZH_20170914/MSLT_Test_CH_*T2.ch.snt"
+	# path_ch = "../Corpora/MSLT_Datas/*.jp.snt"
+	path_ch = "../Corpora/MSLT_Datas/*.ch.snt"
 	snt_ch = glob.glob(path_ch)
 	dico_hanzi = {}
 	for file in snt_ch:
@@ -385,8 +376,8 @@ def get_hanzi(kanjis):
 		line.extend([pinyin, mode, mode2, lieu, file])
 		#return
 
-def write_output(res, file='kanji_label.tsv'):
-	with open(file, 'w') as f:
+def write_output(res):
+	with open('hankan.tsv', 'w') as f:
 		line0 = "Kanji\tHanzi\tSyllabe\tModeSyl\tMode2Syl\tLieuSyl\tLabel\tDansDict\tFichierJap\tPinyin\tModePin\tMode2Pin\tLieuPin\tFichierCh\n"
 		f.write(line0)
 		n_champs = len(line0.split('\t'))
@@ -412,7 +403,7 @@ def is_hirakata(char):
 def main():
 	res = get_prononciation_on_kun()
 	get_hanzi(res)
-	write_output(res, 'hanzi_labels.tsv')
+	write_output(res)
 
 if __name__ == "__main__":
 
