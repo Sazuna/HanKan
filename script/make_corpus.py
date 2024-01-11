@@ -189,7 +189,8 @@ def get_prononciation_on_kun():
 								ok = True
 								break
 							elif syllabe in kuns:
-								kanjis.append([c, c_chinois_simpl, syllabe, '_', '_', '_', '0', '1', file])
+								mode_jp, mode2_jp, lieu_jp = get_mode_lieu_cons_jp(syllabe)
+								kanjis.append([c, c_chinois_simpl, syllabe, mode_jp, mode2_jp, lieu_jp, '0', '1', file])
 								ok = True
 								break
 							i -= 1
