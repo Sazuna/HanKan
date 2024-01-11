@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-    Ce que l'on peut ecrire sur le terminal depuis le dossier Projet_MTdV2023 :
+    Ce que l'on peut ecrire sur le terminal depuis le dossier script :
     $ python create_final_tsv.py faux.tsv
 """
 
@@ -13,7 +13,7 @@ def read_textgrid(chemin: str, caracter: str) :
     """ renvoie xmin et xmax
 
     Args:
-        chemin (str): chemin vers la transcription du fichier chinois
+        chemin (str): chemin vers la transcription du fichier
     """
     path_textgrid = regex.sub(r"../MSLT_Corpus/Data/(.+?)/(.+?)\.T2(.+?)\.snt", r"../Output/\1/\2\3.TextGrid", chemin)
     
@@ -44,10 +44,7 @@ def new_tsv(file: list[str]) :
             tok_line = [token for token in line.rstrip().split("\t")]
             
             # les nouveaux éléments
-            DebutJap = "0.00"
-            FinJap = "0.00"
-            
-            # partie chinoise
+            DebutJap, FinJap = read_textgrid(tok_line[8], tok_line[0]) # pas pu tester
             DebutCh, FinCh = read_textgrid(tok_line[13], tok_line[1])
             
             # on insert les nouveaux éléments dans la liste
