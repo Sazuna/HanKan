@@ -23,8 +23,8 @@ def cut_wav(chemin: str, xmin: str, xmax: str):
     """
    
     # transformation en miliseconde
-    xmin = (float(xmin) - 0.005) * 1000
-    xmax = (float(xmax) + 0.005) * 1000
+    xmin = int(float(xmin) * 1000)
+    xmax = int(float(xmax) * 1000)
     
     # on va chercher le fichier audio
     path_audio = regex.sub(r"../Corpora/MSLT_Datas/(.+?)\.T2(.+?)\.snt", r"../Corpora/MSLT_Datas/\1.T0\2.wav", chemin)

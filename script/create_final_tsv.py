@@ -25,6 +25,20 @@ def read_textgrid(chemin: str, caracter: str) :
         if regex.match(my_regex, line) :
             xmin = regex.sub(r".+xmin\s=\s([0-9\.]+)\s+", r"\1", data[i-2])
             xmax = regex.sub(r".+xmax\s=\s([0-9\.]+)\s+", r"\1", data[i-1])
+            
+            # on modifie xmin pour prendre un peu avant sans passer dans le negatif
+            xmin = round(float(xmin) - 0.005, 3)
+            if xmin < 0:
+                xmin = 0
+            xmin = str(xmin)
+                
+            # on modifie xmax pour prendre un peu après sans aller au-delà de la durée audio
+            xmax = round(float(xmax) + 0.005, 3)
+            maxaudio = float(regex.sub(r"^xmax\s=\s([0-9.]+)\s+", r"\1", data[4]))
+            if xmax > maxaudio:
+                xmax = maxaudio
+            xmax = str(xmax)
+            
             break
     
     return xmin, xmax
