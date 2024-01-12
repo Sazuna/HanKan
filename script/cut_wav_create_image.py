@@ -42,7 +42,7 @@ def lecture_tsv(file: list[str]):
         if i != 0 :
             # notre ligne
             tok_line = [token for token in line.rstrip().split("\t")]
-            
+
             # label
             label = tok_line[6]
             with open (f"../Corpora/Processed_Datas/label{i}.txt", "w") as f :

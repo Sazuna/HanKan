@@ -23,6 +23,7 @@ def read_textgrid(chemin: str, caracter: str) :
     for i, line in enumerate(data) :
         my_regex = r".+" + regex.escape(caracter) + r".+"
         if regex.match(my_regex, line) :
+            
             xmin = regex.sub(r".+xmin\s=\s([0-9\.]+)\s+", r"\1", data[i-2])
             xmax = regex.sub(r".+xmax\s=\s([0-9\.]+)\s+", r"\1", data[i-1])
             
@@ -30,18 +31,32 @@ def read_textgrid(chemin: str, caracter: str) :
             xmin = round(float(xmin) - 0.005, 3)
             if xmin < 0:
                 xmin = 0
-            xmin = str(xmin)
                 
             # on modifie xmax pour prendre un peu après sans aller au-delà de la durée audio
             xmax = round(float(xmax) + 0.005, 3)
             maxaudio = float(regex.sub(r"^xmax\s=\s([0-9.]+)\s+", r"\1", data[4]))
             if xmax > maxaudio:
                 xmax = maxaudio
-            xmax = str(xmax)
             
+            # enfin, on aggrandit la durée du son si elle est en dessous de 100 millisecondes
+            boucle = True
+            while boucle:
+                duree = xmax - xmin
+                if duree >= 0.099:
+                    boucle = False
+                else :
+                    ajout = round((0.100 - duree)/2, 3)
+                    if (xmin - ajout) < 0:
+                        xmax += ajout * 2
+                    elif (xmax + ajout) > maxaudio:
+                        xmin -= ajout * 2
+                    else:
+                        xmin -= ajout
+                        xmax += ajout
+
             break
     
-    return xmin, xmax
+    return str(round(xmin, 3)), str(round(xmax, 3))
 
 def new_tsv(file: list[str]) :
     """ print sur le terminal le nouveau fichier tsv
